@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>事件总线</title>
+  </head>
+  <style>
+      
+  </style>
+  <body>
+    <div id="box">
+      <child1></child1>
+      <child2></child2>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      /*
+      el：元素的挂载位置
+      data 模型数据
+      vue的代码运行原理：vue代码通过Vue框架编译成原生js代码
+      插值表达式的用法：将数据填充到html中，插值表达式支持基本的计算操作
+      
+      */
+     //注册子组件
+
+     var bus = new Vue(); //空的vue实例 就是中央事件总线
+     Vue.component("child1", {
+         template:`<div>
+            我是发布者
+            <input type="text" ref="mytext" />
+            <button @click="payMoney">发布</button>
+            </div>`,
+            data(){
+                return {
+                    childname: '爸爸，给你一百万dollor'
+                }
+                
+            },
+            methods:{
+                payMoney(){
+                    console.log('发布东西了~~~');
+                    // this.$emit("myevent",this.childname)
+                    bus.$emit("xxx", this.$refs.mytext.value)
+                }
+            }
+          }
+     )
+     Vue.component("child2", {
+         //在合适的位置进行订阅 bus.$on
+         template:`<div>
+            我是用户
+            {{msg}}
+            </div>`,
+            mounted(){
+                bus.$on("xxx", (msg)=>{
+                    console.log('收到了推送了', msg);
+                    this.msg = msg
+                })
+            },
+           data(){
+                return {
+                  msg: ''
+                }
+                
+            },
+            
+          }
+            
+     )
+      const vm = new Vue({
+          el: '#box',
+          data(){
+              return {
+                giveTochild: '儿啊，爸爸给你的'
+              }
+             
+          },
+          methods:{
+            handleEvent(ev){
+                console.log(this.$refs.mytext.value);
+                console.log('666',this.$refs.mychild.childname);
+                //ref放在标签上获取的时原生dom
+                // console.log('父组件收到钱了', ev);
+            }
+          }
+      })
+    </script>
+  </body>
+</html>

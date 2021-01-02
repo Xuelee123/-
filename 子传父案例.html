@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <style>
+      
+  </style>
+  <body>
+    <div id="box">
+      父组件
+      <child @myevent="handleEvent($event)"></child>
+      <ul v-show="isShow" style="background-color: yellow;">
+          <li>111</li>
+          <li>111</li>
+          <li>111</li>
+          <li>111</li>
+      </ul>
+      
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      /*
+      el：元素的挂载位置
+      data 模型数据
+      vue的代码运行原理：vue代码通过Vue框架编译成原生js代码
+      插值表达式的用法：将数据填充到html中，插值表达式支持基本的计算操作
+      
+      */
+     //注册子组件
+     Vue.component("child", {
+         template:`<div>
+            child组件
+            <button @click="payMoney">按钮</button>
+            
+            <button>首页</button>
+            </div>`,
+            data(){
+                return {
+                    childname: '爸爸，给你一百万dollor'
+                }
+                
+            },
+            methods:{
+                payMoney(){
+                    console.log('子组件打钱了');
+                    this.$emit("myevent",this.childname)
+            }
+          }
+            
+     })
+      const vm = new Vue({
+          el: '#box',
+          data(){
+              return {
+                giveTochild: '儿啊，爸爸给你的',
+                isShow: true,
+              }
+             
+          },
+          methods:{
+            handleEvent(ev){
+                this.isShow = !this.isShow;
+                console.log('父组件收到钱了', ev);
+            }
+          }
+      })
+    </script>
+  </body>
+</html>

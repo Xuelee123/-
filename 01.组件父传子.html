@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <style>
+      
+  </style>
+  <body>
+    <div id="box">
+      <!-- <button @click="isok = !isok">切换效果</button>
+      <transition name="fade">
+        <p v-show="isok">我是一个p标签</p>
+      </transition> -->
+      <navbar myname="home"></navbar>
+      <navbar myname="list"></navbar>
+      <navbar :myname="giveTochild"></navbar>
+      
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      /*
+      el：元素的挂载位置
+      data 模型数据
+      vue的代码运行原理：vue代码通过Vue框架编译成原生js代码
+      插值表达式的用法：将数据填充到html中，插值表达式支持基本的计算操作
+      
+      */
+     //此种组件的写法为全局组件写法
+     Vue.component("navbar", {
+         template:`<div>
+            <button>返回</button>
+            {{myname}}
+            <button>首页</button>
+            <navbarChild></navbarChild>
+            </div>`,
+            // props:["myname"], //接受父组件传来的属性
+            props:{myname:String} , //这里将所传的值的类型规定一下
+            //局部定义组件
+            components:{
+                navbarChild:{
+                    template:` <div>navbar的亲儿子</div>`
+                }
+            }
+            
+     }) 
+      const vm = new Vue({
+          el: '#box',
+          data(){
+              return {
+                giveTochild: '儿啊，爸爸给你的'
+              }
+             
+          },
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <style>
+      
+  </style>
+  <body>
+    <div id="box">
+      <!-- <home myname="home"></home>
+      <list myname="list"></list>
+      <shopcar :myname="giveTochild"></shopcar> -->
+      <keep-alive>
+        <component :is="which"></component>
+      </keep-alive>
+      
+      <footer style="list-style: none;">
+        <ul style="list-style: none;">
+            
+            <li><a @click="which='home'">首页</a></li>
+            <li><a @click="which='list'">列表页</a></li>
+            <li><a @click="which='shopcar'">购物车页</a></li>
+        </ul>
+      </footer>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      /*
+      el：元素的挂载位置
+      data 模型数据
+      vue的代码运行原理：vue代码通过Vue框架编译成原生js代码
+      插值表达式的用法：将数据填充到html中，插值表达式支持基本的计算操作
+      
+      */
+    
+      const vm = new Vue({
+          el: '#box',
+          data(){
+              return {
+                giveTochild: '儿啊，爸爸给你的',
+                which: 'home'
+              }             
+          },
+          components:{
+                home:{
+                    template:`<div>home<input type="text" ref="mytext" /></div>`
+                },
+                list:{
+                    template:`<div>list</div>`
+                },
+                shopcar:{
+                    template:`<div>shopcar</div>`
+                },
+            }
+      })
+    </script>
+  </body>
+</html>

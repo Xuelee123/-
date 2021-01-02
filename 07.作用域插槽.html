@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <style>
+      [v-cloak] {
+        display: none;
+      }
+      .reguler{
+        color: green
+      }
+      .active{
+        color: red
+      }
+  </style>
+  <body>
+    <div id="app">
+      <!-- <component-a>笔误</component-a>
+      <component-a>逻辑问题</component-a> -->
+      <component-a :fruits='fruits'>
+        <!-- 这里能够得到子组件的数据就是haha是每一个对象haha.info里面的 -->
+        <template slot-scope="haha">
+          <div :class="[{active:haha.info.id == 2},'reguler']">{{haha.info.name}}</div>
+         
+        </template>
+       
+      </component-a>
+
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      /*
+      插槽就是儿子挖坑，老子填坑
+      作用域插槽就是，父组件对子组件的内容进行加工处理
+      */
+      /*
+     
+      
+      */
+      
+      const componentA = {
+        props: ['fruits'],
+        name: 'haha',
+        data(){
+          return {
+            msg: '开心的一天'
+          }
+        },
+        template:`
+        <div id="app">
+        <ul>
+          <li :key=item.id v-for='item in fruits'>
+            <slot :info='item'>
+              {{item.name}}
+            </slot>
+         
+          </li>
+        </ul>
+       </div>
+        `,
+      }
+      const vm = new Vue({
+          el: '#app',
+          data: {
+            fruits:[
+              {id: 1,name:'watermelon1'},
+              {id: 2,name:'banana2'},
+              {id: 3,name:'pear3'}
+            ]
+          },
+          components:{
+            // componentA:componentA
+            'component-a':componentA
+          }
+      })
+      // Vue.set(vm.fruits,0,{id:1,name:'pineapple'})
+    </script>
+  </body>
+</html>
